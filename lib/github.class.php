@@ -1,11 +1,24 @@
 <?php
 
+/**
+ * GitHub Api Connector
+ * @author Nandor Sivok dominis@haxor.hu
+ *
+ *
+ */
 class GitHubApi {
     const AUTH_HTTP = 'BASIC';
     const AUTH_OAUTH = 'OAUTH';
 
+    /**
+     * http client instance
+     * @var \GitHubHttpClient|object
+     */
     private $httpClient = null;
 
+    /**
+     * @param GitHubHttpClient $httpClient
+     */
     public function __construct(GitHubHttpClient $httpClient) {
         $this -> httpClient = $httpClient;
     }
@@ -26,13 +39,13 @@ class GitHubApi {
             case 'get':
             case 'head':
             case 'delete':
-                $this -> doRequest(constant('GitHubHttpClient::'. $httpMethod), $arg[0], $arg[1]);
+                return $this -> doRequest(constant('GitHubHttpClient::'. $httpMethod), $arg[0], $arg[1]);
                 break;
             case 'post':
             case 'put':
             case 'patch':
                 if(!isset($arg[2])) { throw new GitHubCommonException('Missing argument for write operation'); }
-                $this -> doRequest(constant('GitHubHttpClient::'. $httpMethod), $arg[0], $arg[1], $arg[2]);
+                return $this -> doRequest(constant('GitHubHttpClient::'. $httpMethod), $arg[0], $arg[1], $arg[2]);
                 break;
         }
     }
@@ -41,7 +54,7 @@ class GitHubApi {
         if($input === null) { $input = array(); }
         
         $remoteUrl = $this -> prepareUrl($url, $params);
-        print_r($this -> httpClient -> request($method, $remoteUrl, $input));
+        return $this -> httpClient -> request($method, $remoteUrl, $input);
     }
 
     public function prepareUrl($url, array $params) {

@@ -14,10 +14,12 @@ class GitHubCurl implements GitHubHttpClient {
     public function request($requestType, $url, $params) {
         $query = utf8_encode(http_build_query($params, '', '&'));
 
+        $set = array();
+
         if($requestType == 'GET') {
             $url = $url . '?' . $query;
         } else {
-            $set = array(CURLOPT_POSTFIELDS => json_encode($params));
+            $set += array(CURLOPT_POSTFIELDS => json_encode($params));
         }
 
         $set += array(
@@ -52,6 +54,7 @@ class GitHubCurl implements GitHubHttpClient {
 
         switch($this -> httpCode) {
             case 200:
+            case 201:
                 return $this -> response;
                 break;
             case 401:
