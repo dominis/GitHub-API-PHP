@@ -2,7 +2,7 @@
 
 /**
  * GitHub Api Connector
- * @author Nandor Sivok dominis@haxor.hu
+ * @author Nandor Sivok
  *
  *
  */
