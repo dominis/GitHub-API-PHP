@@ -11,7 +11,14 @@ class GitHubApiTest extends PHPUnit_Framework_TestCase {
     }
 
 	public function testConnection() {
-		$this->object->
+            $a = $this->object->get(
+                    '/users/:user',
+                    array('user' => 'dominis')
+            );
+        $this->assertEquals(
+           'dominis',
+            $a->login
+        );
 	}
 
 }
